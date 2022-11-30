@@ -1,0 +1,9 @@
+*.json
+*-local.*
+*.config
+*.log
+node_modules/
+*/node_modules/
+.cache/
+dist/
+.vscode/
