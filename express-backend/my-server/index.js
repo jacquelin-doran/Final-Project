@@ -8,6 +8,7 @@
 
 // module.exports = router;
 const express = require('express')
+const mongoose = require('mongoose')
 const users = require('./routes/users')
 const records = require('./routes/record')
 const cors = require('cors')
@@ -32,12 +33,31 @@ app.use('/record', records)
 app.use('/users', users)
 
 app.get('/', (req, res) => {
-    res.send('Hello Worl!')
+    res.send('Hello World!')
+})
+
+//SCHEMA
+const sch={
+    name:String,
+    email:String,
+    id:Number
+}
+
+app.post('/post', async(req, res) => {
+    console.log("inside post function")
+    const data = {
+        name: req.body.name,
+        email: req.body.email,
+        id: req.body.id
+    }
+    const val = await data.save()
+    res.json(val)
 })
 
 app.listen(port, () => {
     db.connectToServer(function (err) {
         if (err) console.log(err)
     })
+    db.getDB()
     console.log(`Express Backend listening at http://localhost:${port}`)
 })
