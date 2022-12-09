@@ -5,8 +5,10 @@ import picture from '../assets/whisk.png'
 const Home = () => {
     return(
         <>
-        <h1>Recipies without Rubbish</h1>
-        <img src={picture}></img>
+        <div className='container'>
+        <h1 className='title'>Recipies without Rubbish</h1>
+        <img className='whisk' src={picture}></img>
+        </div>
         </>
 
     )

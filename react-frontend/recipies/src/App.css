@@ -1,11 +1,41 @@
 .App {
   text-align: center;
+  background-color: #8ABD91;
+  height: auto;
+  max-width: 100%;
 }
 
-.searchBar{
-  background-color: blue;
+.searchGroup{
+  margin: 5px;
 }
 
-.Header{
-  background-color: lavender;
+.text-group{
+  color: white;
+}
+
+.container{
+  background-color: #8ABD91;
+}
+
+.title{
+  background-color: #8ABD91;
+  color: white;
+  margin: 0;
+}
+
+.whisk{
+ max-width: 100%;
+ height: auto; 
+}
+
+.link{
+  margin: auto;
+}
+
+.footer{
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  height: 2.5rem;
+  min-height: 100%;
 }

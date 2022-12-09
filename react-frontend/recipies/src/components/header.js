@@ -7,10 +7,14 @@ import { Link } from 'react-router-dom'
 function Header(){
     return(
         <>
-        <Link to='/saved'>Saved</Link>
-        <Link to='/search'>Search</Link>
-        <Link to='/create'>Create</Link>
-        <Link to='/'>Home</Link>
+        <div className='container'>
+        <div className='Header'>
+        <span className='link'><Link to='/saved'> Saved </Link></span>
+        <span className='link'><Link to='/search'> Search </Link></span>
+        <span className='link'><Link to='/create'> Create </Link></span>
+        <span className='link'><Link to='/'> Home </Link></span>
+        </div>
+        </div>
         </>
 
         // <><nav className='navbar'>

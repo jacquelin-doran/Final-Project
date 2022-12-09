@@ -23,37 +23,23 @@ function Search() {
     }
   }
   return (
-    <form action="/" method="get">
-      <label htmlFor="search">
-        <span className="searchBar">Search for a recipie</span>
-      </label>
-      <div>
-        <input
-          type="text"
-          id="search"
-          placeholder="Hungry?"
-          name="searchBar"
-        ></input>
-      </div>
-      <button type="submit">Search</button>
-
+    <div className='conatiner'>
       <div className='searchGroup'>
         { !sent ? (
           <>
-          <h1>Enter name for file and URL</h1>
+          <h1>Search for a recipie</h1>
           <form onSubmit={sendUrl} className='form'>
             <input type='text' className='text-input' value={name} onChange={(e) => setName(e.target.value)}/>
             <input type='text' className='text-input' value={url} onChange={(e) => setUrl(e.target.value)}/>
-            <button type='submit'>Create File</button>
+            <button type='submit'>Search</button>
           </form>
           </>
         ): (
           <h1>File created</h1>
         )}
         </div>
-      <Link to='/'>Home</Link>
-    </form>
-  );
+    </div>
+  )
 }
 
 export default Search;
