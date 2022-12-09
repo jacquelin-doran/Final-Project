@@ -1,6 +1,8 @@
 import React, {useState} from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import {Button, InputGroup} from 'react-bootstrap'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 function Search() {
   const [url, setUrl] = useState('')
@@ -29,9 +31,9 @@ function Search() {
           <>
           <h1>Search for a recipie</h1>
           <form onSubmit={sendUrl} className='form'>
-            <input type='text' className='text-input' value={name} onChange={(e) => setName(e.target.value)}/>
-            <input type='text' className='text-input' value={url} onChange={(e) => setUrl(e.target.value)}/>
-            <button type='submit'>Search</button>
+            <InputGroup className='text-input' value={name} onChange={(e) => setName(e.target.value)}/>
+            <InputGroup className='text-input' value={url} onChange={(e) => setUrl(e.target.value)}/>
+            <Button type='submit'>Search</Button>
           </form>
           </>
         ): (
