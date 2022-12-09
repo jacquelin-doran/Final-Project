@@ -25,7 +25,7 @@ function Search() {
     }
   }
   return (
-    <div className='conatiner'>
+    <div className='container'>
       <div className='searchGroup'>
         { !sent ? (
           <>

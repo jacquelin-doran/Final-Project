@@ -2,6 +2,9 @@
   text-align: center;
   background-color: #8ABD91;
   height: 100%;
+  position: absolute;
+  width: 100%;
+  overflow: hidden;
   max-width: 100%;
 }
 
@@ -15,6 +18,8 @@
 
 .container{
   background-color: #8ABD91;
+  height: 100%;
+  max-width: 100%;
 }
 
 .title{
