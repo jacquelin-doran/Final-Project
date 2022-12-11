@@ -68,7 +68,6 @@ function App() {
           <li key={recipie.id}>{recipie.name}</li>
         ))}
           </ul> */}
-        <Footer/>
         </React.Fragment>
         </BrowserRouter>
     </div>

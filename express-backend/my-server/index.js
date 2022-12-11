@@ -12,6 +12,7 @@ const records = require('./routes/record')
 const mongoose = require('mongoose')
 require('dotenv').config({path: './config.env'})
 const db = require('./db/conn')
+const { text } = require('express')
 
 //App setup
 const app = express()
@@ -59,16 +60,22 @@ const textToList = async (url, name) => {
     const browser = await puppeteer.launch()
     const page = await browser.newPage() 
     await page.goto(url)
-    const content = await page.$eval('*', (element) => element.innerText)
+    const content = await page.$eval('.tasty-recipe-ingredients', (element) => element.innerText)
     const scrubbedContent = content.replace('/\s+', " ").trim()
-    FileSaver.saveAs(scrubbedContent, `${name},txt`)
-    //$eval can be changed to get something more specific
     await browser.close()
+    return scrubbedContent
+    // return scrubbedContent
+    //This is the url and query string from when you search the website
+    //https://cookieandkate.com/search/?q=pizza 
+    //$eval can be changed to get something more specific
 }
 
 app.post('/get_text', async (req, res)=> {
     let {url, name} = req.body
-    textToList(url, name)
+    console.log('in post')
+    const data = await textToList(url, name)
+    res.data =  await data
+    res.send(await textToList(url, name))
 })
 
 
