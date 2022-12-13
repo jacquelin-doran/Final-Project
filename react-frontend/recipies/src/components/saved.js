@@ -3,9 +3,16 @@ import { Link } from "react-router-dom"
  
 const Recipe = (props) => (
  <tr>
+   <>
    <td>{props.recipe.title}</td>
-   <td>{props.recipe.ingredients}</td>
-   <td>{props.recipe.directions}</td>
+   <td>{props.recipe.ingredients.split(',').map(element => {
+        {console.log(element)}
+        return <li>{element}</li>
+        })}</td>
+   <td>{props.recipe.directions.split('.').map(element => {
+        return <div>{element}</div>
+   })}</td>
+   </>
    {/* <td> */}
      {/* <Link className="btn btn-link" to={`/edit/${props.record._id}`}>Edit</Link> |
      <button className="btn btn-link"
@@ -17,8 +24,7 @@ const Recipe = (props) => (
      </button> */}
    {/* </td> */}
  </tr>
-);
- 
+)
 export default function RecipeList() {
  const [recipe, setRecipe] = useState([]);
  
