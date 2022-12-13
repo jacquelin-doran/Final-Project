@@ -6,7 +6,6 @@ const client = new MongoClient(uri, {
   useUnifiedTopology: true,
 })
 
-const connection = ''
 module.exports = {
   connectToServer: function (callback) {
     client.connect(function (err, db) {
@@ -14,15 +13,24 @@ module.exports = {
         return callback(err)
       }
     console.log('Successful connection to MongoDB')
-    connection = db.db('recipeDB')
-    console.log(connection)
-    return callback()
+    var database = db.db('recipeDB')
+    console.log("CONNECTION")
+    console.log(database)
   })
   },
   getDB: async function(dbname){
-      dbList = await client.db(dbname)
+      dbList = await client.db(dbname).collection('recipes')
       console.log('Databases:')
       console.log(dbList)
       return dbList
-    }
+    },
+  findCollections: function(db, callback){
+    const collection = db.db('recipeDB')
+    collection.collection('recipe')
+    collection.find().toArray(function(err, docs) {
+      if (err) throw err
+      console.log(docs)
+      callback;
+    })
+  }
 }

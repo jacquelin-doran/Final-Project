@@ -8,13 +8,14 @@ const ObjectId = require("mongodb").ObjectId
  
  
 // This section will help you get a list of all the records.
-router.get('/', function (req, res) {
- let db_connect = dbo.getDB('recipeDB');
- var collection = db_connect.collection('recipe')
-   collection.find().toArray(function (err, result) {
-     if (err) throw err;
-     res.json(result);
-   });
+router.get('/', async function (req, res) {
+ const db_connect = await dbo.getDB('recipeDB')
+ console.log("GET")
+ console.log(db_connect)
+ //  db_connect.find().toArray(function (err, result) {
+//      if (err) throw err;
+//      res.json(result);
+//    });
 });
  
 // This section will help you get a single record by id

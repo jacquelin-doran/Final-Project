@@ -104,6 +104,6 @@ app.listen(port, () => {
     db.connectToServer(function (err) {
         if (err) console.log(err)
     })
-    db.getDB('recipeDB')
+    db.findCollections('recipeDB', function(){db.close()})
     console.log(`Express Backend listening at http://localhost:${port}`)
 })
