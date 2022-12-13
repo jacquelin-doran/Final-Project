@@ -15,6 +15,7 @@ require('dotenv').config({path: './config.env'})
 const db = require('./db/conn')
 const { text } = require('express')
 const { parse } = require('path')
+const { table } = require('console')
 
 //App setup
 const app = express()
@@ -30,7 +31,7 @@ app.use(cors())
 app.use(express.json())
 
 //Routes
-app.use('/record', records)
+app.use('/recipe', records)
 
 app.use('/users', users)
 
@@ -39,22 +40,32 @@ app.get('/', (req, res) => {
 })
 
 //SCHEMA
-const sch={
-    name:String,
-    email:String,
-    id:Number
+const schema = new mongoose.Schema({
+    title:String,
+    ingredients:String,
+    directions:String
+})
+
+const dataTable = mongoose.model('Recipies', schema)
+
+const fetchData = function(callback){
+    const tabledata = dataTable.find({})
+    tabledata.exec(function(err, data){
+        if(err) throw err;
+        return callback(data)
+    })
 }
 
-app.post('/post', async(req, res) => {
-    console.log("inside post function")
-    const data = {
-        name: req.body.name,
-        email: req.body.email,
-        id: req.body.id
-    }
-    const val = await data.save()
-    res.json(val)
-})
+// app.post('/post', async(req, res) => {
+//     console.log("inside post function")
+//     const data = {
+//         name: req.body.name,
+//         email: req.body.email,
+//         id: req.body.id
+//     }
+//     const val = await data.save()
+//     res.json(val)
+// })
 
 //Create filepath, create a browser, open puppeteerm go to url, save and scrub the content
 const textToList = async (url, name) => {
@@ -64,19 +75,19 @@ const textToList = async (url, name) => {
     const page = await browser.newPage()
     const URL = `https://cookieandkate.com/search/?q=${url}`
     await page.goto(url)
-    const content = await page.$eval(('*'), (element) => element.innerHTML)
+    const ingredients = await page.$eval(('div.tasty-recipe-ingredients'), (element) => element.innerHTML)
+    const directions = await page.$eval(('div.tasty-recipe-instructions'), (element) => element.innerHTML)
     const scrubbedContent = content.replace('/\s+', " ").trim()
     await browser.close()
-    // parsePage(content)
-    return content
-    //This is the url and query string from when you search the website
-    //https://cookieandkate.com/search/?q=pizza 
+    parsePage(ingredients)
+    parsePage(directions)
+    return scrubbedContent
     //$eval can be changed to get something more specific
 }
 
 const parsePage = async (content) => {
+    const scrubbedContent = content.replace('/\s+', " ").trim()
     console.log('in parse page')
-    console.log(content)
     const parser = new DOMParser()
     var document = parser.parseFromString(content, "text/html")
     console.log(document)
@@ -85,8 +96,6 @@ const parsePage = async (content) => {
 app.post('/get_text', async (req, res)=> {
     let {url, name} = req.body
     console.log('in post')
-    // const data = await textToList(url, name)
-    // res.data =  await data
     res.send(await textToList(url, name))
 })
 
@@ -95,6 +104,6 @@ app.listen(port, () => {
     db.connectToServer(function (err) {
         if (err) console.log(err)
     })
-    db.getDB()
+    db.getDB('recipeDB')
     console.log(`Express Backend listening at http://localhost:${port}`)
 })
