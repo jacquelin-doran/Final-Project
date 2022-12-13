@@ -3,6 +3,7 @@ const cors = require('cors')
 const path = require('path')
 const puppeteer = require('puppeteer')
 const FileSaver = require('file-saver')
+const DOMParser = require('dom-parser')
 
 //Routes
 const users = require('./routes/users')
@@ -13,6 +14,7 @@ const mongoose = require('mongoose')
 require('dotenv').config({path: './config.env'})
 const db = require('./db/conn')
 const { text } = require('express')
+const { parse } = require('path')
 
 //App setup
 const app = express()
@@ -57,24 +59,34 @@ app.post('/post', async(req, res) => {
 //Create filepath, create a browser, open puppeteerm go to url, save and scrub the content
 const textToList = async (url, name) => {
     const filepath = path.join(__dirname, `${name}.json`)
+    console.log(url)
     const browser = await puppeteer.launch()
-    const page = await browser.newPage() 
+    const page = await browser.newPage()
+    const URL = `https://cookieandkate.com/search/?q=${url}`
     await page.goto(url)
-    const content = await page.$eval('.tasty-recipe-ingredients', (element) => element.innerText)
+    const content = await page.$eval(('*'), (element) => element.innerHTML)
     const scrubbedContent = content.replace('/\s+', " ").trim()
     await browser.close()
-    return scrubbedContent
-    // return scrubbedContent
+    // parsePage(content)
+    return content
     //This is the url and query string from when you search the website
     //https://cookieandkate.com/search/?q=pizza 
     //$eval can be changed to get something more specific
 }
 
+const parsePage = async (content) => {
+    console.log('in parse page')
+    console.log(content)
+    const parser = new DOMParser()
+    var document = parser.parseFromString(content, "text/html")
+    console.log(document)
+}
+
 app.post('/get_text', async (req, res)=> {
     let {url, name} = req.body
     console.log('in post')
-    const data = await textToList(url, name)
-    res.data =  await data
+    // const data = await textToList(url, name)
+    // res.data =  await data
     res.send(await textToList(url, name))
 })
 
