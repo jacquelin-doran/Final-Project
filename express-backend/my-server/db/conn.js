@@ -14,8 +14,6 @@ module.exports = {
       }
     console.log('Successful connection to MongoDB')
     var database = db.db('recipeDB')
-    console.log("CONNECTION")
-    console.log(database)
   })
   },
   getDB: async function(dbname){
@@ -23,14 +21,14 @@ module.exports = {
       console.log('Databases:')
       console.log(dbList)
       return dbList
-    },
-  findCollections: function(db, callback){
-    const collection = db.db('recipeDB')
-    collection.collection('recipe')
-    collection.find().toArray(function(err, docs) {
-      if (err) throw err
-      console.log(docs)
-      callback;
-    })
-  }
+    }
+  // findCollections: function(db, callback){
+  //   const collection = db.db('recipeDB')
+  //   collection.collection('recipe')
+  //   collection.find().toArray(function(err, docs) {
+  //     if (err) throw err
+  //     console.log(docs)
+  //     callback;
+  //   })
+  // }
 }

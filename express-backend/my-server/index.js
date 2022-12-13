@@ -8,6 +8,7 @@ const DOMParser = require('dom-parser')
 //Routes
 const users = require('./routes/users')
 const records = require('./routes/record')
+const RecipeDB = require('./db/recipeDB')
 
 //DB setup
 const mongoose = require('mongoose')
@@ -21,51 +22,33 @@ const { table } = require('console')
 const app = express()
 const port = 3002
 
-// app.use(function (req, res, next) {
-//     res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000")
-//     res.setHeader("Access-Control-Allow-Headers", "content-type")
-//     next();
-// });
-
 app.use(cors())
 app.use(express.json())
 
 //Routes
-app.use('/recipe', records)
-
 app.use('/users', users)
 
 app.get('/', (req, res) => {
     res.send('Hello World!')
 })
 
-//SCHEMA
-const schema = new mongoose.Schema({
-    title:String,
-    ingredients:String,
-    directions:String
-})
-
-const dataTable = mongoose.model('Recipies', schema)
-
-const fetchData = function(callback){
-    const tabledata = dataTable.find({})
-    tabledata.exec(function(err, data){
-        if(err) throw err;
-        return callback(data)
-    })
-}
-
-// app.post('/post', async(req, res) => {
-//     console.log("inside post function")
-//     const data = {
-//         name: req.body.name,
-//         email: req.body.email,
-//         id: req.body.id
-//     }
-//     const val = await data.save()
-//     res.json(val)
+//This is supposed to set up a way to capture the data that will go to and from mongoDB
+// const schema = new mongoose.Schema({
+//     title:String,
+//     ingredients:String,
+//     directions:String
 // })
+
+// const dataTable = mongoose.model('Recipies', schema)
+
+// const fetchData = function(callback){
+//     const tabledata = dataTable.find({})
+//     tabledata.exec(function(err, data){
+//         if(err) throw err;
+//         return callback(data)
+//     })
+// }
+
 
 //Create filepath, create a browser, open puppeteerm go to url, save and scrub the content
 const textToList = async (url, name) => {
@@ -99,11 +82,28 @@ app.post('/get_text', async (req, res)=> {
     res.send(await textToList(url, name))
 })
 
+app.get('/recipes', async (req, res) => {
+    res.json(await RecipeDB.recipes())
+    console.log("Recipe")
+})
+
+app.post('/recipes', async (req, res) => {
+    console.log("adding a recipe")
+    console.log(req.body)
+    if(req.body == undefined){
+        res.status(500)
+        res.send({message: 'Post request failed'})
+    }
+    else {
+        RecipeDB.insertRecipe(req.body).then((data) => {
+            res.json(data)
+        })
+    }
+})
 
 app.listen(port, () => {
     db.connectToServer(function (err) {
         if (err) console.log(err)
     })
-    db.findCollections('recipeDB', function(){db.close()})
     console.log(`Express Backend listening at http://localhost:${port}`)
 })

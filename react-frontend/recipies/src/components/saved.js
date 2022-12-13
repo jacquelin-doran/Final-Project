@@ -1,31 +1,31 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
  
-const Record = (props) => (
+const Recipe = (props) => (
  <tr>
-   <td>{props.record.name}</td>
-   <td>{props.record.position}</td>
-   <td>{props.record.level}</td>
-   <td>
-     <Link className="btn btn-link" to={`/edit/${props.record._id}`}>Edit</Link> |
+   <td>{props.recipe.title}</td>
+   <td>{props.recipe.ingredients}</td>
+   <td>{props.recipe.directions}</td>
+   {/* <td> */}
+     {/* <Link className="btn btn-link" to={`/edit/${props.record._id}`}>Edit</Link> |
      <button className="btn btn-link"
        onClick={() => {
          props.deleteRecord(props.record._id);
        }}
      >
        Delete
-     </button>
-   </td>
+     </button> */}
+   {/* </td> */}
  </tr>
 );
  
-export default function RecordList() {
- const [records, setRecords] = useState([]);
+export default function RecipeList() {
+ const [recipe, setRecipe] = useState([]);
  
  // This method fetches the records from the database.
  useEffect(() => {
-   async function getRecords() {
-     const response = await fetch(`http://localhost:3002/record/`);
+   async function getRecipes() {
+     const response = await fetch(`http://localhost:3002/recipes`);
  
      if (!response.ok) {
        const message = `An error occurred: ${response.statusText}`;
@@ -33,34 +33,33 @@ export default function RecordList() {
        return;
      }
  
-     const records = await response.json();
-     setRecords(records);
+     const recipes = await response.json();
+     setRecipe(recipes);
    }
  
-   getRecords();
+   getRecipes();
  
    return;
- }, [records.length]);
+ }, [recipe.length]);
  
- // This method will delete a record
- async function deleteRecord(id) {
-   await fetch(`http://localhost:3002/${id}`, {
-     method: "DELETE"
-   });
+//  // This method will delete a record
+//  async function deleteRecord(id) {
+//    await fetch(`http://localhost:3002/${id}`, {
+//      method: "DELETE"
+//    });
  
-   const newRecords = records.filter((el) => el._id !== id);
-   setRecords(newRecords);
- }
+//    const newRecords = records.filter((el) => el._id !== id);
+//    setRecords(newRecords);
+//  }
  
  // This method will map out the records on the table
  function recordList() {
-   return records.map((record) => {
+   return recipe.map((record) => {
      return (
-       <Record
-         record={record}
-         deleteRecord={() => deleteRecord(record._id)}
-         key={record._id}
-       />
+      <Recipe
+      recipe={recipe}
+      key={recipe._id}
+    />
      );
    });
  }
@@ -72,10 +71,9 @@ export default function RecordList() {
      <table className="table table-striped" style={{ marginTop: 20 }}>
        <thead>
          <tr>
-           <th>Name</th>
-           <th>Position</th>
-           <th>Level</th>
-           <th>Action</th>
+           <th>Title</th>
+           <th>Ingredients</th>
+           <th>Directions</th>
          </tr>
        </thead>
        <tbody>{recordList()}</tbody>

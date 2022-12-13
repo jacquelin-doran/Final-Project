@@ -24,7 +24,7 @@ function App() {
   const [url, setUrl] = useState('')
   const [sent, setSent] = useState(false)
   const [name, setName] = useState('')
-  //State for a user?
+  const [recipe, setRecipe] = useState({})
 
   const sendUrl = async (e) => {
     e.preventDefault()
@@ -39,6 +39,18 @@ function App() {
     catch (error) {
       console.log(error)
     }
+  }
+
+  let getRecipes = async () => {
+    try{
+      await axios.post('http://localhost:3002/recipes',{
+        recipe
+      })
+    }
+    catch (error){
+      console.log(error)
+    }
+
   }
 
   // const componentDidMount = () => {
