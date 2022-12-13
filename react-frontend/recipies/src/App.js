@@ -41,18 +41,6 @@ function App() {
     }
   }
 
-  let getRecipes = async () => {
-    try{
-      await axios.post('http://localhost:3002/recipes',{
-        recipe
-      })
-    }
-    catch (error){
-      console.log(error)
-    }
-
-  }
-
   // const componentDidMount = () => {
   //   fetch('/')
   //     .then(res => res.json())

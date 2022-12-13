@@ -33,14 +33,13 @@ export default function RecipeList() {
        return;
      }
  
-     const recipes = await response.json();
-     setRecipe(recipes);
+     const recipes = await response.json()
+     console.log(response.json)
+     setRecipe(recipes)
    }
- 
-   getRecipes();
- 
-   return;
- }, [recipe.length]);
+   getRecipes()
+   return
+ }, [recipe.length])
  
 //  // This method will delete a record
 //  async function deleteRecord(id) {
@@ -53,8 +52,9 @@ export default function RecipeList() {
 //  }
  
  // This method will map out the records on the table
- function recordList() {
-   return recipe.map((record) => {
+ function recipeList() {
+   return recipe.map((recipe) => {
+     console.log(recipe)
      return (
       <Recipe
       recipe={recipe}
@@ -67,7 +67,7 @@ export default function RecipeList() {
  // This following section will display the table with the records of individuals.
  return (
    <div>
-     <h3>Record List</h3>
+     <h3>Recipe List</h3>
      <table className="table table-striped" style={{ marginTop: 20 }}>
        <thead>
          <tr>
@@ -76,7 +76,7 @@ export default function RecipeList() {
            <th>Directions</th>
          </tr>
        </thead>
-       <tbody>{recordList()}</tbody>
+       <tbody>{recipeList()}</tbody>
      </table>
    </div>
  );

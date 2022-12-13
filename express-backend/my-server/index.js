@@ -105,5 +105,6 @@ app.listen(port, () => {
     db.connectToServer(function (err) {
         if (err) console.log(err)
     })
+    RecipeDB.initialize()
     console.log(`Express Backend listening at http://localhost:${port}`)
 })
