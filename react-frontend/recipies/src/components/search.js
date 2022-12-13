@@ -37,28 +37,24 @@ function Search() {
       <div className='searchGroup'>
         { !sent ? (
           <>
-          <h1>Search for a recipie</h1>
+          <h1>Search for a Recipe</h1>
           <form onSubmit={sendUrl} className='form'>
             <div className='recipie-form'>
-              <label for='url'>Recipie: </label>
+              <label for='url'>Recipe URL: </label>
               <input type='text' id='url' value={url} onChange={(e) => setUrl(e.target.value)}></input>
-              <label for='name'>Recipie Name: </label>
+              <label for='name'>Recipe Name: </label>
               <input type='text' id='name' value={name} onChange={(e) => setName(e.target.value)}></input>
             </div>
-            {/* <InputGroup className='url-input'>
-              <InputGroup.Text id='url'>URL</InputGroup.Text>
-              <Form.Control placeholder='URL'></Form.Control>
-            </InputGroup> */}
-            {/* <InputGroup className='text-input' value={name} onChange={(e) => setName(e.target.value)}/>
-            <InputGroup className='text-input' value={url} onChange={(e) => setUrl(e.target.value)}/> */}
             <Button type='submit'>Search</Button>
           </form>
           </>
         ): (
           <div className='recipie-display'>
-          <h1>Recipie Found</h1>
+          <h1>Recipe</h1>
           <div> 
-            {instructions}
+            {instructions.split("<ul>").map(element => {
+        {console.log(element)}
+        return <span>{element}</span>})}
           </div>
           </div>
         )}

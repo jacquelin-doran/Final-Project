@@ -60,7 +60,7 @@ const textToList = async (url, name) => {
     await page.goto(url)
     const ingredients = await page.$eval(('div.tasty-recipe-ingredients'), (element) => element.innerHTML)
     const directions = await page.$eval(('div.tasty-recipe-instructions'), (element) => element.innerHTML)
-    const scrubbedContent = content.replace('/\s+', " ").trim()
+    const scrubbedContent = ingredients.replace('/\s+', " ").trim()
     await browser.close()
     parsePage(ingredients)
     parsePage(directions)
@@ -69,11 +69,13 @@ const textToList = async (url, name) => {
 }
 
 const parsePage = async (content) => {
-    const scrubbedContent = content.replace('/\s+', " ").trim()
+    // const scrubbedContent = content.replace('/\s+', " ").trim()
     console.log('in parse page')
     const parser = new DOMParser()
-    var document = parser.parseFromString(content, "text/html")
+    const document = parser.parseFromString(content, "text/html")
     console.log(document)
+    document.querySelector("ul")
+
 }
 
 app.post('/get_text', async (req, res)=> {
