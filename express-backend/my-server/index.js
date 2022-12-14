@@ -97,6 +97,7 @@ app.post('/recipes', async (req, res) => {
         res.send({message: 'Post request failed'})
     }
     else {
+        console.log(req)
         RecipeDB.insertRecipe(req.body).then((data) => {
             res.json(data)
         })

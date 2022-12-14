@@ -21,8 +21,10 @@ class RecipeDB {
     }
 
     static insertRecipe(recipe) {
+        console.log("DB Insert")
+        console.log(recipe)
         return new Promise((resolve, reject) => {
-            this.db.run(`INSERT INTO Recipes (id, title, ingredients, directions) VALUES ("${recipe.id}", "${recipe.title}", "${recipe.ingredients}", "${recipe.directions}")`, function(err, data) {
+            this.db.run(`INSERT INTO Recipes (id, title, ingredients, directions) VALUES ("${recipe.id}", "${recipe.name}", "${recipe.ingredients}", "${recipe.instructions}")`, function(err, data) {
                 resolve(recipe)
             })
         })

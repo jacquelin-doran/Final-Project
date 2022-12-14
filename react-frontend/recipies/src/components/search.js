@@ -38,6 +38,7 @@ function Search() {
   const saveRecipe = async (e) => {
     try{
       await axios.post('http://localhost:3002/recipes', {
+        name,
         instructions
       })
       .then(function (response) {
