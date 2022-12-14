@@ -41,10 +41,10 @@ export default function RecipeList() {
 //  async function deleteRecord(id) {
 //    await fetch(`http://localhost:3002/${id}`, {
 //      method: "DELETE"
-//    });
+//    })
  
-//    const newRecords = records.filter((el) => el._id !== id);
-//    setRecords(newRecords);
+//    const newRecords = records.filter((el) => el._id !== id)
+//    setRecords(newRecords)
 //  }
  
  // This method will map out the records on the table
@@ -56,8 +56,8 @@ export default function RecipeList() {
       recipe={recipe}
       key={recipe._id}
     />
-     );
-   });
+     )
+   })
  }
  
  // This following section will display the table with the records of individuals.
