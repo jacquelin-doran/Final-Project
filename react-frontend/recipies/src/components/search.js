@@ -9,7 +9,7 @@ function Search() {
   const [url, setUrl] = useState('')
   const [sent, setSent] = useState(false)
   const [name, setName] = useState('')
-  const [instructions, setInstructions] = useState('')
+  const [instructions, setRecipe] = useState('')
 
   const sendUrl = async (e) => {
     e.preventDefault()
@@ -21,8 +21,10 @@ function Search() {
         name
       })
       .then(function (response) {
-        console.log("ANYTHING")
-        setInstructions(response.data) 
+        console.log("Search found")
+        console.log(response)
+        setRecipe(response.data)
+        console.log(instructions) 
       })
       .catch(function (error) {
         console.log(error)
@@ -51,10 +53,11 @@ function Search() {
         ): (
           <div className='recipie-display'>
           <h1>Recipe</h1>
+          <form onSubmit={() => {alert('Recipe Saved')}} calssName='save-form'>
+          <Button type='submit'>Save</Button>
+          </form>
           <div> 
-            {instructions.split("<ul>").map(element => {
-        {console.log(element)}
-        return <span>{element}</span>})}
+            {instructions}
           </div>
           </div>
         )}

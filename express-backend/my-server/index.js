@@ -17,6 +17,7 @@ const db = require('./db/conn')
 const { text } = require('express')
 const { parse } = require('path')
 const { table } = require('console')
+const { isContext } = require('vm')
 
 //App setup
 const app = express()
@@ -58,12 +59,12 @@ const textToList = async (url, name) => {
     const page = await browser.newPage()
     const URL = `https://cookieandkate.com/search/?q=${url}`
     await page.goto(url)
-    const ingredients = await page.$eval(('div.tasty-recipe-ingredients'), (element) => element.innerHTML)
-    const directions = await page.$eval(('div.tasty-recipe-instructions'), (element) => element.innerHTML)
-    const scrubbedContent = ingredients.replace('/\s+', " ").trim()
+    const ingredients = await page.$eval(('div.tasty-recipe-ingredients'), (element) => element.innerText)
+    const directions = await page.$eval(('div.tasty-recipe-instructions'), (element) => element.innerText)
+    const scrubbedIngredients = ingredients.replace('/\s+', " ").trim()
+    const scrubbedDirections = directions.replace('/\s+', " ").trim()
     await browser.close()
-    parsePage(ingredients)
-    parsePage(directions)
+    const scrubbedContent = [scrubbedDirections, scrubbedIngredients]
     return scrubbedContent
     //$eval can be changed to get something more specific
 }
@@ -74,7 +75,6 @@ const parsePage = async (content) => {
     const parser = new DOMParser()
     const document = parser.parseFromString(content, "text/html")
     console.log(document)
-    document.querySelector("ul")
 
 }
 
